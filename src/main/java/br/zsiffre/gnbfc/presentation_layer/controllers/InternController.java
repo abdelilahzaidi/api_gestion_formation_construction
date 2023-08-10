@@ -22,7 +22,7 @@ public class InternController {
         this.internService = internService;
     }
 
-    @GetMapping("/")
+    @GetMapping({"/", ""})
     public  List<InternEntity> getAllIntern(){
         return this.internService.findAll();
     }
