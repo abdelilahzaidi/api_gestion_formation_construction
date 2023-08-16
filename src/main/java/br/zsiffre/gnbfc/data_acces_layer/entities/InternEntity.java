@@ -14,4 +14,6 @@ public class InternEntity {
     private String firstName;
     @Column(name="last_name",nullable = false)
     private String lastName;
+    @ManyToOne
+    private WorkEntity work;
 }

@@ -1,4 +1,4 @@
-package br.zsiffre.gnbfc.business_layer.services;
+package br.zsiffre.gnbfc.business_layer.services.intern;
 
 import br.zsiffre.gnbfc.data_acces_layer.entities.InternEntity;
 import br.zsiffre.gnbfc.data_acces_layer.repositories.InternRepository;
@@ -31,11 +31,11 @@ public class InternServiceImplement implements InternService {
     public List<InternEntity> findAll() {
         return this.internRepository.findAll();
     }
-
+//Methode valable pour les listes et non pour la base de données
     @Override
     public InternEntity getOne(Integer id) {
         return interns.stream()
-                .filter(intern -> intern.getId()== id)
+                .filter(intern -> intern.getId().equals(id))
                 .findAny()
                 .orElseThrow( () -> new RuntimeException("Intern doesn't exist") );
     }
@@ -71,9 +71,14 @@ public class InternServiceImplement implements InternService {
 
     @Override
     public void updateAll(Integer id, InternEntity intern) {
-        intern.setId(id);
-        this.internRepository.save(intern);
+
+        InternEntity toUpdate= this.internRepository.findById(id).orElseThrow();
+
+        toUpdate.setFirstName(intern.getFirstName());
+        toUpdate.setLastName(intern.getLastName());
+        this.internRepository.save(toUpdate);
+        System.out.println("Je suis là");
+        System.out.println(intern.getFirstName());
+        System.out.println(intern.getLastName());
     }
-
-
 }

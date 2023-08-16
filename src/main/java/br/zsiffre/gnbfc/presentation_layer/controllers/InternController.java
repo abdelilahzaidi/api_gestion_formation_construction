@@ -1,10 +1,10 @@
 package br.zsiffre.gnbfc.presentation_layer.controllers;
 
 
-import br.zsiffre.gnbfc.business_layer.services.InternService;
+import br.zsiffre.gnbfc.business_layer.services.intern.InternService;
 import br.zsiffre.gnbfc.data_acces_layer.entities.InternEntity;
-import br.zsiffre.gnbfc.presentation_layer.models.Intern;
-import br.zsiffre.gnbfc.presentation_layer.models.InternCreateForm;
+import br.zsiffre.gnbfc.presentation_layer.models.Intern.Intern;
+import br.zsiffre.gnbfc.presentation_layer.models.Intern.InternCreateForm;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,6 +46,7 @@ public class InternController {
     }
     @PutMapping("/{id}")
     public void update(@PathVariable Integer id, @RequestBody InternCreateForm intern){
+        System.out.println(intern);
         internService.updateAll(id,intern.toEntity());
     }
     @PatchMapping("/{id}")

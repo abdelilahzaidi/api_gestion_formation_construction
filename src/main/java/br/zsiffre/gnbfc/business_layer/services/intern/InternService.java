@@ -1,4 +1,4 @@
-package br.zsiffre.gnbfc.business_layer.services;
+package br.zsiffre.gnbfc.business_layer.services.intern;
 
 import br.zsiffre.gnbfc.data_acces_layer.entities.InternEntity;
 import org.springframework.data.domain.Page;
