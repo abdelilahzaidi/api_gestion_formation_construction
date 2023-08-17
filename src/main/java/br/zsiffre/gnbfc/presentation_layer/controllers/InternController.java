@@ -3,6 +3,7 @@ package br.zsiffre.gnbfc.presentation_layer.controllers;
 
 import br.zsiffre.gnbfc.business_layer.services.intern.InternService;
 import br.zsiffre.gnbfc.data_acces_layer.entities.InternEntity;
+
 import br.zsiffre.gnbfc.presentation_layer.models.Intern.Intern;
 import br.zsiffre.gnbfc.presentation_layer.models.Intern.InternCreateForm;
 import jakarta.validation.Valid;
@@ -54,4 +55,9 @@ public class InternController {
         this.internService.updatePartial(id,intern.toEntity());
     }
 
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<?> handle(RuntimeException ex){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ex.getMessage());
+    }
 }

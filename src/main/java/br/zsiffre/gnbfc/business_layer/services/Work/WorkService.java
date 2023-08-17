@@ -16,4 +16,5 @@ public interface WorkService {
     void delete(Integer id);
     void updatePartial(Integer id,WorkEntity work);
     void updateAll(Integer id,WorkEntity iwork);
+    WorkEntity beginWork(int internId , int clientId);
 }

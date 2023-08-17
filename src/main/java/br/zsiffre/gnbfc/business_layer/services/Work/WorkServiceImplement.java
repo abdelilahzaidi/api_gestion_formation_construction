@@ -1,6 +1,10 @@
 package br.zsiffre.gnbfc.business_layer.services.Work;
 
+import br.zsiffre.gnbfc.data_acces_layer.entities.ClientEntity;
+import br.zsiffre.gnbfc.data_acces_layer.entities.InternEntity;
 import br.zsiffre.gnbfc.data_acces_layer.entities.WorkEntity;
+import br.zsiffre.gnbfc.data_acces_layer.repositories.ClientRepository;
+import br.zsiffre.gnbfc.data_acces_layer.repositories.InternRepository;
 import br.zsiffre.gnbfc.data_acces_layer.repositories.WorkRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -14,11 +18,15 @@ import java.util.Optional;
 @Service
 public class WorkServiceImplement implements WorkService {
 
+    private final ClientRepository clientRepository;
     private final WorkRepository workRepository;
+    private final InternRepository internRepository;
     private final List<WorkEntity> works =new ArrayList<>();
 
-    public WorkServiceImplement(WorkRepository workRepository) {
+    public WorkServiceImplement(ClientRepository clientRepository, WorkRepository workRepository, InternRepository internRepository) {
+        this.clientRepository = clientRepository;
         this.workRepository = workRepository;
+        this.internRepository = internRepository;
     }
 
     @Override
@@ -46,6 +54,13 @@ public class WorkServiceImplement implements WorkService {
         this.workRepository.save(work);
     }
 
+//    public void beginWork(int internId, int trolleyId, int clientId) {
+//        WorkEntity work = new WorkEntity();
+//        InternEntity intern = this.internRepository.findById(internId).orElseThrow();
+//        work.setInternEntities(intern);
+//        this.workRepository.save(work);
+//    }
+
     @Override
     public void delete(Integer id) {
 
@@ -55,77 +70,19 @@ public class WorkServiceImplement implements WorkService {
     public void updatePartial(Integer id, WorkEntity work) {
 
     }
-
     @Override
     public void updateAll(Integer id, WorkEntity iwork) {
 
     }
 
+    @Override
+    public WorkEntity beginWork(int internId, int clientId) {
+        WorkEntity work = new WorkEntity();
+        InternEntity intern = this.internRepository.findById(internId).orElseThrow();
+        ClientEntity client = this.clientRepository.findById(clientId).orElseThrow();
+        work.setInternEntities(intern);
+        work.setClientEntities(client);
+        return this.workRepository.save(work);
+    }
 
-//    private final InternRepository internRepository;
-//    private final List<InternEntity> interns =new ArrayList<>();
-//
-//    public WorkServiceImplement(InternRepository internRepository) {
-//        this.internRepository = internRepository;
-//    }
-//
-//    @Override
-//    public Page<InternEntity> findAll(int page, int offset) {
-//        return null;
-//    }
-//
-//    @Override
-//    public List<InternEntity> findAll() {
-//        return this.internRepository.findAll();
-//    }
-////Methode valable pour les listes et non pour la base de données
-//    @Override
-//    public InternEntity getOne(Integer id) {
-//        return interns.stream()
-//                .filter(intern -> intern.getId().equals(id))
-//                .findAny()
-//                .orElseThrow( () -> new RuntimeException("Intern doesn't exist") );
-//    }
-//    @Override
-//    public Optional<InternEntity> findOneById(int id) {
-//        return Optional.empty();
-//    }
-//
-//    @Override
-//    public void insert(InternEntity intern, long workId) {
-//
-//    }
-
-//    @Override
-//    public void insert(InternEntity intern) {
-//         this.internRepository.save(intern);
-//    }
-//
-//    @Override
-//    public void delete(Integer id) {
-//
-//         this.internRepository.deleteById(id);
-//
-//    }
-//
-//    @Override
-//    public void updatePartial(Integer id, InternEntity intern) {
-//        InternEntity internTmp =this.internRepository.findById(id).orElseThrow();
-//        internTmp.setFirstName(intern.getFirstName());
-//        internTmp.setLastName(intern.getLastName());
-//        this.internRepository.save(internTmp);
-//    }
-//
-//    @Override
-//    public void updateAll(Integer id, InternEntity intern) {
-//
-//        InternEntity toUpdate= this.internRepository.findById(id).orElseThrow();
-//
-//        toUpdate.setFirstName(intern.getFirstName());
-//        toUpdate.setLastName(intern.getLastName());
-//        this.internRepository.save(toUpdate);
-//        System.out.println("Je suis là");
-//        System.out.println(intern.getFirstName());
-//        System.out.println(intern.getLastName());
-//    }
 }

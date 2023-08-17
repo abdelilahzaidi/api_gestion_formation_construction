@@ -72,7 +72,7 @@ public class InternServiceImplement implements InternService {
     @Override
     public void updateAll(Integer id, InternEntity intern) {
 
-        InternEntity toUpdate= this.internRepository.findById(id).orElseThrow();
+        InternEntity toUpdate= this.internRepository.findById(id).orElseThrow(() -> new RuntimeException("Intern doesn't exist"));
 
         toUpdate.setFirstName(intern.getFirstName());
         toUpdate.setLastName(intern.getLastName());

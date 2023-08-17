@@ -2,9 +2,10 @@ package br.zsiffre.gnbfc.presentation_layer.controllers;
 
 import br.zsiffre.gnbfc.business_layer.services.Work.WorkService;
 import br.zsiffre.gnbfc.data_acces_layer.entities.WorkEntity;
+import br.zsiffre.gnbfc.presentation_layer.models.works.WorkCreateForm;
 import jakarta.validation.Valid;
-import org.hibernate.jdbc.Work;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +29,13 @@ public class WorkController {
     }
 
     @PostMapping(path={"","/"})
-    public ResponseEntity<Work> addWork(
-            @Valid @RequestBody WorkCreateForm form
+    @ResponseStatus(HttpStatus.CREATED) // par defaut: 200 - OK
+    public ResponseEntity<Integer>  addWork(
+            @Valid @RequestBody WorkCreateForm dto
     ){
-
+        WorkEntity entity = this.workService.beginWork(dto.getIdIntern(),dto.getIdClient());
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(entity.getId());
     }
 }

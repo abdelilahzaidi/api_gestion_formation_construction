@@ -23,17 +23,33 @@ public class WorkEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name="date_work",nullable=false)
+    @Column(name="date_work")
     private LocalDate dateTravail;
-    @Column(name="duration",nullable=false)
-    private LocalDate duration;
+    @Column(name="duration")
+    private int duration;
 
-    @ElementCollection()
-    private ArrayList<String> photos=new ArrayList<String>();
+    @ElementCollection
+    @CollectionTable(schema = "red_thread")
+    private List<String> photos;
 
-    @Column(name="comment",nullable=false)
+    @Column(name="comment")
     private String commentaire;
 
-    @OneToMany(targetEntity = InternEntity.class, mappedBy="work")
-    private List<InternEntity> interns;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "intern_id")
+    private InternEntity internEntities;
+
+
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "client_id")
+    private ClientEntity clientEntities;
+
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "chario_id")
+    private ChariotEntity chariotEntities;
+
+
 }

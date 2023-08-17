@@ -2,6 +2,8 @@ package br.zsiffre.gnbfc.data_acces_layer.entities;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Entity(name="Intern")
 @Table(name="intern",schema = "red_thread")
 @Data
@@ -14,6 +16,6 @@ public class InternEntity {
     private String firstName;
     @Column(name="last_name",nullable = false)
     private String lastName;
-    @ManyToOne
-    private WorkEntity work;
+    @OneToMany(targetEntity = WorkEntity.class, mappedBy= "internEntities")
+    private List<WorkEntity> work;
 }
